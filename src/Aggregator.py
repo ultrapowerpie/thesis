@@ -7,7 +7,6 @@ from matplotlib import dates as mdates
 
 
 class Aggregator:
-
     MYDICT = {
         '美国'.decode('utf-8'): 'US',
         '台湾'.decode('utf-8'): 'TW',
@@ -17,8 +16,8 @@ class Aggregator:
     }
 
     AGG_FUNCS = {
-        'SUM':np.sum,
-        'MEAN':np.mean,
+        'SUM': np.sum,
+        'MEAN': np.mean,
     }
 
     def __init__(self, filename, has_keywords=None, article_tag=None, sentence_tag=None):
@@ -118,4 +117,3 @@ class Aggregator:
             month_agg.append([date, agg])
 
         return sorted(month_agg, key=lambda x: x[0])
-

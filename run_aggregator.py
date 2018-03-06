@@ -5,7 +5,6 @@ from matplotlib import dates as mdates
 from src.Aggregator import Aggregator
 from src.Dataset import *
 
-
 if __name__ == '__main__':
     filename = 'data/sentiment_data.txt'
 
@@ -16,17 +15,18 @@ if __name__ == '__main__':
         print 'Too many arguments'
 
     kw_map = {
-        'none':None,
-        'true':True,
-        'false':False
+        'none': None,
+        'true': True,
+        'false': False
     }
 
     tag_map = {
-        'us':'美国'.decode('utf-8'),
-        'tw':'台湾'.decode('utf-8'),
-        'sk':'韩国'.decode('utf-8'),
-        'nk':'朝鲜'.decode('utf-8'),
-        'jp':'日本'.decode('utf-8')
+        'us': '美国'.decode('utf-8'),
+        'tw': '台湾'.decode('utf-8'),
+        'sk': '韩国'.decode('utf-8'),
+        'nk': '朝鲜'.decode('utf-8'),
+        'jp': '日本'.decode('utf-8'),
+        'none': None
     }
 
     KEYWORDS = {
@@ -64,4 +64,3 @@ if __name__ == '__main__':
 
     with codecs.open(sys.argv[4], 'wb', 'utf-8') as f:
         f.write('\n'.join(tsv))
-

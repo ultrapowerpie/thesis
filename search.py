@@ -20,7 +20,7 @@ if __name__ == '__main__':
     for a in filtered_articles:
         date = str(a[0])
         articles, words = counts_map[date]
-        counts_map[date] = [articles+1, words+a[1]]
+        counts_map[date] = [articles + 1, words + a[1]]
 
     counts = [','.join([d, str(v[0]), str(v[1])]) for d, v in counts_map.items()]
 

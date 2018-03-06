@@ -6,7 +6,6 @@ from Aggregator import Aggregator
 
 
 class Plot:
-
     years = mdates.YearLocator()
     months = mdates.MonthLocator()
     yearsFmt = mdates.DateFormatter('%Y')
@@ -20,7 +19,7 @@ class Plot:
 
     def plot_timeseries(self, delimiter):
         for i, (key, val) in enumerate(self.dataset.items()):
-            subplt = self.fig.add_subplot(self.n, self.n, i+1)
+            subplt = self.fig.add_subplot(self.n, self.n, i + 1)
             x, y = zip(*val)
             subplt.plot_date(x, y, xdate=True, marker=None, ls='solid')
 
@@ -31,8 +30,8 @@ class Plot:
             title += 'Article AggFunc: ' + a_func + '\n'
             title += 'Coalesce Func: ' + c_func + '\n'
             title += 'Has Keywords: ' + keywords + '\n'
-            title += '   Article Tag: '+tags[0]
-            title += '   Sentence Tag:'+tags[1]
+            title += '   Article Tag: ' + tags[0]
+            title += '   Sentence Tag:' + tags[1]
             subplt.title.set_text(title)
 
             subplt.format_xdata = mdates.DateFormatter('%Y-%m-%d')
@@ -40,6 +39,7 @@ class Plot:
             subplt.xaxis.set_major_formatter(self.yearsFmt)
             subplt.xaxis.set_minor_locator(self.months)
             # subplt.grid(color='b', linestyle='-', linewidth=0.1, which='minor')
+
 
 if __name__ == '__main__':
     filename = '../data/sentiment_data.txt'
