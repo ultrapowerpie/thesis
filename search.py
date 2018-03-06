@@ -30,7 +30,7 @@ if __name__ == '__main__':
 
     counts = [','.join([d, str(v[0]), str(v[1])]) for d, v in counts_map.items()]
 
-    counts = [headers] + counts
+    counts = headers + counts
 
     with open(sys.argv[2], 'w') as f:
         f.write('\n'.join(counts))
