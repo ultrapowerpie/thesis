@@ -2,8 +2,8 @@
 
 import codecs, datetime, pickle, re, sys
 
-from Article import Article
-from SentimentCN import SentimentCN as SCN
+from src.Article import Article
+from src.SentimentCN import SentimentCN as SCN
 
 ARTICLE_DELIM = '<REC>'.decode('utf-8')
 TITLE_DELIM = '<正标题>='.decode('utf-8')

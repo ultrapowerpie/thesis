@@ -2,7 +2,7 @@
 import math
 from matplotlib import pyplot as plt
 from matplotlib import dates as mdates
-from Aggregator import Aggregator
+from src.Aggregator import Aggregator
 
 
 class Plot:
