@@ -10,6 +10,7 @@ __pycache__/
 .Python
 env/
 build/
+data/*.pkl
 develop-eggs/
 dist/
 downloads/
@@ -19,6 +20,7 @@ lib/
 lib64/
 parts/
 sdist/
+static_data/*.pkl
 var/
 wheels/
 *.egg-info/
