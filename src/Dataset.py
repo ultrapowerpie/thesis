@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import codecs, datetime, pickle, re, sys
-
+import codecs, datetime, pickle, re
 from src.Article import Article
 from src.SentimentCN import SentimentCN as SCN
 

@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
-# import sys
+import sys
+import os.path
+
+sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
+
 from collections import defaultdict as dd
 from matplotlib import dates as mdates
 from src.Aggregator import Aggregator
