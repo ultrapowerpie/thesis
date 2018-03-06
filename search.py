@@ -26,7 +26,11 @@ if __name__ == '__main__':
         articles, words = counts_map[date]
         counts_map[date] = [articles + 1, words + a[1]]
 
+    headers = ['Date', 'Articles', 'Counts']
+
     counts = [','.join([d, str(v[0]), str(v[1])]) for d, v in counts_map.items()]
+
+    counts = [headers] + counts
 
     with open(sys.argv[2], 'w') as f:
         f.write('\n'.join(counts))
