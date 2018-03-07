@@ -25,6 +25,12 @@ tag_map = {
     'none': None
 }
 
+def running_sum(x, N):
+    cumsum = np.cumsum(np.insert(x, 0, 0))
+    sums = cumsum[N:] - cumsum[:-N]
+    return sums[N::N]
+
+
 if __name__ == '__main__':
     config = ConfigParser.ConfigParser()
     config.read('config.ini')
@@ -59,9 +65,9 @@ if __name__ == '__main__':
     zip_list = []
     for i, l in enumerate(zip(*day_list)):
         if i == 0:
-            zip_list.append(l[window-1::window])
+            zip_list.append(l[window::window])
         else:
-            zip_list.append(np.convolve(np.array(l), np.ones((window,)), mode='valid'))
+            zip_list.append(running_sum(l, window))
 
     agg_list = [['Dates'] + labels] + zip(*zip_list)
 

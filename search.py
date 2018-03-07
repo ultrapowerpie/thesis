@@ -12,6 +12,13 @@ import numpy as np
 START_DATE = dt.date(2001, 1, 1)
 END_DATE = dt.date(2012, 12, 31)
 
+
+def running_sum(x, N):
+    cumsum = np.cumsum(np.insert(x, 0, 0))
+    sums = cumsum[N:] - cumsum[:-N]
+    return sums[N::N]
+
+
 if __name__ == '__main__':
     config = ConfigParser.ConfigParser()
     config.read('config.ini')
@@ -44,9 +51,9 @@ if __name__ == '__main__':
     counts.sort(key=lambda x: x[0])
 
     dates, articles, counts = zip(*counts)
-    dates = dates[window - 1::window]
-    conv_articles = np.convolve(np.array(articles), np.ones((window,)), mode='valid')
-    conv_counts = np.convolve(np.array(counts), np.ones((window,)), mode='valid')
+    dates = dates[window::window]
+    conv_articles = running_sum(articles, window)
+    conv_counts = running_sum(counts, window)
     agg_list = zip(dates, conv_articles, conv_counts)
 
     output = ['Date,Articles,Counts'] + [','.join(list(map(str, l))) for l in agg_list]
