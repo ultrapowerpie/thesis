@@ -104,3 +104,8 @@ ENV/
 
 # PyCharm 
 .idea/
+
+# Data files
+*.txt
+*.csv
+*.tsv

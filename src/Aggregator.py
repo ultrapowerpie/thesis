@@ -1,18 +1,21 @@
 # -*- coding: utf-8 -*-
 
-from datetime import datetime as dt
+import datetime as dt
 import numpy as np
 from collections import defaultdict as dd
-from matplotlib import dates as mdates
 
 
 class Aggregator:
+    START_DATE = dt.date(2001, 1, 1)
+    END_DATE = dt.date(2012, 12, 31)
+
     MYDICT = {
         '美国'.decode('utf-8'): 'US',
         '台湾'.decode('utf-8'): 'TW',
         '韩国'.decode('utf-8'): 'SK',
         '朝鲜'.decode('utf-8'): 'NK',
-        '日本'.decode('utf-8'): 'JP'
+        '日本'.decode('utf-8'): 'JP',
+        None:'None'
     }
 
     AGG_FUNCS = {
@@ -20,33 +23,34 @@ class Aggregator:
         'MEAN': np.mean,
     }
 
+    COALESCE_FUNCS = {
+        'SUM': lambda x: sum(x[0]) - sum(x[1]),
+        'NEG': lambda x: -sum(x[1]),
+        'COUNT': lambda x: len(x[0])
+    }
+
     def __init__(self, filename, has_keywords=None, article_tag=None, sentence_tag=None):
         self.filename = filename
         self.has_keywords = has_keywords
         self.article_tag = article_tag
         self.sentence_tag = sentence_tag
+        a_tag = self.MYDICT[article_tag]
+        s_tag = self.MYDICT[article_tag]
 
         self.agged_map = {}
         for s_name, s_func in self.AGG_FUNCS.items():
-            self.article_map = self.agg_articles(s_func)
-            for a_name, a_func in self.AGG_FUNCS.items():
-                for c_func in ['SUM', 'NEG']:
-                    title = ','.join([s_name, a_name, c_func]) + '-'
-                    title += str(has_keywords) + '-'
-                    title += ','.join([self.MYDICT[article_tag], self.MYDICT[sentence_tag]])
+            self.article_map = self.agg_sentences(s_func)
+            for c_name in ['SUM', 'NEG']:
+                title = ','.join([s_name, c_name, str(has_keywords), a_tag, s_tag])
+                self.agged_map[title] = self.agg_articles(self.COALESCE_FUNCS[c_name])
 
-                    self.agged_map[title] = self.agg_months(a_func, c_func)
-
-        title = ',,COUNT-'
-        title += str(has_keywords) + '-'
-        title += ','.join([self.MYDICT[article_tag], self.MYDICT[sentence_tag]])
-
-        self.agged_map[title] = self.agg_months(None, 'COUNT')
+        title = ','.join(['None', 'COUNT', str(has_keywords), a_tag, s_tag])
+        self.agged_map[title] = self.agg_articles(self.COALESCE_FUNCS['COUNT'])
 
     def get_aggs(self):
         return self.agged_map
 
-    def agg_articles(self, agg_func):
+    def agg_sentences(self, agg_func):
         article_agg = dd(list)
         with open(self.filename, 'rb') as f:
             is_keywords = None
@@ -62,7 +66,7 @@ class Aggregator:
                     continue
 
                 if is_date:
-                    date = mdates.date2num(dt.strptime(line, '%Y-%m-%d\n'))
+                    date = dt.datetime.strptime(line, '%Y-%m-%d\n').date()
                     is_date = False
                     is_keywords = True
 
@@ -100,20 +104,16 @@ class Aggregator:
 
         return article_agg
 
-    def agg_months(self, agg_func, coalesce_func):
-        month_agg = []
+    def agg_articles(self, coalesce_func):
+        article_agg = []
         for date, vals in self.article_map.items():
-            pos, neg = zip(*vals)
+            agg = coalesce_func(zip(*vals))
+            article_agg.append([date, agg])
 
-            if coalesce_func == 'SUM':
-                agg = agg_func(pos) - agg_func(neg)
+        delta = self.END_DATE - self.START_DATE
+        for i in range(delta.days + 1):
+            date = self.START_DATE + dt.timedelta(days=i)
+            if date not in self.article_map:
+                article_agg.append([date, 0])
 
-            elif coalesce_func == 'NEG':
-                agg = agg_func(neg)
-
-            elif coalesce_func == 'COUNT':
-                agg = len(pos)
-
-            month_agg.append([date, agg])
-
-        return sorted(month_agg, key=lambda x: x[0])
+        return sorted(article_agg, key=lambda x: x[0])

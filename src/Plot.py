@@ -21,7 +21,8 @@ class Plot:
         for i, (key, val) in enumerate(self.dataset.items()):
             subplt = self.fig.add_subplot(self.n, self.n, i + 1)
             x, y = zip(*val)
-            subplt.plot_date(x, y, xdate=True, marker=None, ls='solid')
+            dates = list(map(mdates.date2num, x))
+            subplt.plot_date(dates, y, xdate=True, marker=None, ls='solid')
 
             funcs, keywords, tags = key.split(delimiter)
             s_func, a_func, c_func = funcs.split(',')
