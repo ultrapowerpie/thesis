@@ -28,7 +28,7 @@ tag_map = {
 def running_sum(x, N):
     cumsum = np.cumsum(np.insert(x, 0, 0))
     sums = cumsum[N:] - cumsum[:-N]
-    return sums[N::N]
+    return sums[::N]
 
 
 if __name__ == '__main__':
