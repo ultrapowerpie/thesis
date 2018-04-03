@@ -1,6 +1,6 @@
 # 人民日报 (People's Daily) Sentiment Analysis Tools
 
-## Requiried packages
+## Required packages
 - python 2.7
 - numpy
 - [jieba](https://github.com/fxsjy/jieba)
