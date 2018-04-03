@@ -27,7 +27,7 @@ The aggregator tool aggregates the sentiment of articles matching the specified
 filters (set in configuration file), and aggregates by summation over a window
 of the given number of days.
 
-The SentimentCN tools computes both positive and negative sentiment scores at
+The SentimentCN tools compute both positive and negative sentiment scores at
 the sentence level for simplified Chinese. Aggregated values of both sum of
 positive and negative and just negative sentiment score of each sentence are
 given. Both values are aggregated by summation over sentences within each
